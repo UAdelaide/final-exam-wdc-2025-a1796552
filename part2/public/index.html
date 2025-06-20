@@ -18,6 +18,7 @@
 
     <hr class="my-4">
 
+    <!-- ADDED: Login form -->
     <h3>Login</h3>
     <form @submit.prevent="handleLogin" class="mb-3">
       <div class="mb-3">
@@ -31,6 +32,7 @@
       <button type="submit" class="btn btn-primary">Log In</button>
       <p v-if="error" class="text-danger mt-2">{{ error }}</p>
     </form>
+    <!-- END ADDED: Login form -->
   </div>
 
   <script>
@@ -39,12 +41,14 @@
       data() {
         return {
           message: 'Welcome to the Dog Walking Service!',
+          // ADDED: Login form state
           username: '',
           password: '',
           error: ''
         };
       },
       methods: {
+        // ADDED: Login form submission logic
         async handleLogin() {
           try {
             const res = await fetch('/api/login', {
@@ -62,6 +66,7 @@
               return;
             }
 
+            // ADDED: Redirect user to appropriate dashboard based on role
             if (data.role === 'owner') {
               window.location.href = '/owner-dashboard.html';
             } else if (data.role === 'walker') {
@@ -71,6 +76,7 @@
             this.error = 'Login failed. Please try again.';
           }
         }
+        // END ADDED: Login logic
       }
     }).mount('#app');
   </script>
