@@ -31,6 +31,38 @@ app.get('/', (req, res) => {
   res.send('API is running.');
 });
 
+app.get('/api/dogs', (req, res) => {
+  const query = `
+    SELECT
+      Dogs.name AS dog_name,
+      Dogs.size AS size,
+      Users.username AS owner_username
+    FROM Dogs
+    JOIN Users ON Dogs.owner_id = Users.user_id;
+  `;
+
+  try {
+    req.pool.getConnection((err, connection) => {
+      if (err) {
+        res.status(500).json({ error: 'Database connection failed' });
+        return;
+      }
+
+      connection.query(query, (err, results) => {
+        connection.release();
+
+        if (err) {
+          res.status(500).json({ error: 'Query failed' });
+        } else {
+          res.json(results);
+        }
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Unexpected server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
