@@ -136,6 +136,42 @@ app.get('/api/walkrequests/open', (req, res) => {
   }
 });
 
+app.get('/api/walkers/summary', (req, res) => {
+  const query = `
+    SELECT
+      Users.username AS walker_username,
+      COUNT(WalkRatings.rating_id) AS total_ratings,
+      ROUND(AVG(WalkRatings.rating), 1) AS average_rating,
+      COUNT(CASE WHEN WalkRequests.status = 'completed' THEN 1 END) AS completed_walks
+    FROM Users
+    LEFT JOIN WalkRatings ON Users.user_id = WalkRatings.walker_id
+    LEFT JOIN WalkRequests ON WalkRequests.request_id = WalkRatings.request_id
+    WHERE Users.role = 'walker'
+    GROUP BY Users.user_id;
+  `;
+
+  try {
+    req.pool.getConnection((err, connection) => {
+      if (err) {
+        res.status(500).json({ error: 'Database connection failed' });
+        return;
+      }
+
+      connection.query(query, (err, results) => {
+        connection.release();
+
+        if (err) {
+          res.status(500).json({ error: 'Query failed' });
+        } else {
+          res.json(results);
+        }
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Unexpected server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
