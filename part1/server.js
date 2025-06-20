@@ -43,7 +43,7 @@ function insertSampleData() {
           ((SELECT dog_id FROM Dogs WHERE name = 'Buddy'), '2025-06-12 14:15:00', 40, 'Parkside', 'open')
       `, (err) => {
         if (err) return console.error('Error inserting walk requests:', err);
-        console.log('✅ Sample data inserted');
+        console.log('Sample data inserted');
       });
     });
   });
