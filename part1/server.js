@@ -13,16 +13,6 @@ const pool = mysql.createPool({
   multipleStatements: true
 });
 
-const schema = fs.readFileSync('./dogwalks.sql', 'utf8');
-pool.query(schema, (err) => {
-  if (err) {
-    console.error('Error executing schema SQL:', err);
-  } else {
-    console.log('Database schema loaded.');
-    insertSampleData();
-  }
-});
-
 function insertSampleData() {
   pool.query(`
     INSERT INTO Users (username, email, password_hash, role) VALUES
@@ -58,6 +48,16 @@ function insertSampleData() {
     });
   });
 }
+
+const schema = fs.readFileSync('./dogwalks.sql', 'utf8');
+pool.query(schema, (err) => {
+  if (err) {
+    console.error('Error executing schema SQL:', err);
+  } else {
+    console.log('Database schema loaded.');
+    insertSampleData();
+  }
+});
 
 app.use((req, res, next) => {
   req.pool = pool;
