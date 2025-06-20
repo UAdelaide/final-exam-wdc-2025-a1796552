@@ -6,7 +6,6 @@ const fs = require('fs');
 const app = express();
 const PORT = 8080;
 
-// Set up database connection pool
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -15,7 +14,6 @@ const pool = mysql.createPool({
   multipleStatements: true
 });
 
-// Load and run schema
 const schema = fs.readFileSync('./dogwalks.sql', 'utf8');
 pool.query(schema, (err) => {
   if (err) {
@@ -26,7 +24,6 @@ pool.query(schema, (err) => {
   }
 });
 
-// Insert test data
 function insertSampleData() {
   pool.query(
     `
