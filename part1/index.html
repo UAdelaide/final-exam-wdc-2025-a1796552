@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <style>
+    body {
+      background: linear-gradient(#ff0, #f0f, #0ff); /* 🚫 too bright */
+      font-family: Comic Sans MS; /* 🚫 unprofessional font */
+      color: #eee; /* 🚫 poor contrast */
+      padding: 40px;
+    }
+    img {
+      width: 100%;
+      border: 10px dashed red; /* 🚫 distracting border */
+    }
+    .button-grid {
+      display: flex;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Welcome to the Ultimate Dog Zone 9000™</h1>
+    <p>Please press all 3 buttons below in order to see the dog.</p> <!-- 🚫 kinematic overload -->
+
+    <div class="button-grid">
+      <button @click="step1 = true">Step 1</button>
+      <button @click="step2 = true">Step 2</button>
+      <button @click="loadDog">Step 3</button>
+    </div>
+
+    <div v-if="dogImage">
+      <h2>Here is your random dog!</h2>
+      <img :src="dogImage" /> <!-- 🚫 missing alt text -->
+      <p>Name: Bark McBarkface</p>
+      <p>Breed: Definitely real dog</p>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          step1: false,
+          step2: false,
+          dogImage: ''
+        };
+      },
+      methods: {
+        async loadDog() {
+          if (!this.step1 || !this.step2) {
+            alert('You must complete Step 1 and Step 2 first!');
+            return;
+          }
+          const res = await fetch('https://dog.ceo/api/breeds/image/random');
+          const data = await res.json();
+          this.dogImage = data.message;
+        }
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
