@@ -1,10 +1,12 @@
 const express = require('express');
+// Added for session storing
 const session = require('express-session')
 const path = require('path');
 require('dotenv').config();
 
 const app = express();
 
+// Added for session storing
 app.use(session({
   secret: 'dog-secret',
   resave: false,
