@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   multipleStatements: true
 });
 
-const schema = fs.readFileSync('./part1/dogwalks.sql', 'utf8');
+const schema = fs.readFileSync('./dogwalks.sql', 'utf8');
 pool.query(schema, (err) => {
   if (err) {
     console.error('Error executing schema SQL:', err);
