@@ -12,6 +12,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/test-connection', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT 1 + 1 AS result');
+    res.json({ message: 'Database connected!', result: rows[0].result });
+  } catch (error) {
+    res.status(500).json({ error: 'DB connection failed', details: error.message });
+  }
+});
+
+
 // POST a new user (simple signup)
 router.post('/register', async (req, res) => {
   const { username, email, password, role } = req.body;
