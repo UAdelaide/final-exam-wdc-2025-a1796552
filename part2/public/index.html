@@ -110,7 +110,7 @@
       },
       async mounted() {
         try {
-          const res = await fetch('/api/dogs');
+          const res = await fetch('/api/users/dogs');
           const dogs = await res.json();
 
           // ADDED: fetch random image for each dog
