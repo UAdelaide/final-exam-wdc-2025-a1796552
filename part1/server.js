@@ -19,9 +19,9 @@ const pool = mysql.createPool({
 const schema = fs.readFileSync('./dogwalks.sql', 'utf8');
 pool.query(schema, (err) => {
   if (err) {
-    console.error('❌ Error executing schema SQL:', err);
+    console.error('Error executing schema SQL:', err);
   } else {
-    console.log('✅ Database schema loaded.');
+    console.log('Database schema loaded.');
     insertSampleData();
   }
 });
@@ -38,7 +38,7 @@ function insertSampleData() {
       ('jakecharles', 'jakecharles@example.com', 'hashed222', 'walker')
   `,
     (err) => {
-      if (err) return console.error('❌ Error inserting users:', err);
+      if (err) return console.error('Error inserting users:', err);
 
       pool.query(
         `
@@ -50,7 +50,7 @@ function insertSampleData() {
           ((SELECT user_id FROM Users WHERE username = 'alice123'), 'Buddy', 'medium')
       `,
         (err) => {
-          if (err) return console.error('❌ Error inserting dogs:', err);
+          if (err) return console.error('Error inserting dogs:', err);
 
           pool.query(
             `
@@ -62,8 +62,8 @@ function insertSampleData() {
               ((SELECT dog_id FROM Dogs WHERE name = 'Buddy'), '2025-06-12 14:15:00', 40, 'Parkside', 'open')
           `,
             (err) => {
-              if (err) return console.error('❌ Error inserting walk requests:', err);
-              console.log('✅ Sample data inserted');
+              if (err) return console.error('Error inserting walk requests:', err);
+              console.log('Sample data inserted');
             }
           );
         }
@@ -72,18 +72,15 @@ function insertSampleData() {
   );
 }
 
-// Middleware to attach pool
 app.use((req, res, next) => {
   req.pool = pool;
   next();
 });
 
-// Root
 app.get('/', (req, res) => {
   res.send('API is running.');
 });
 
-// /api/dogs
 app.get('/api/dogs', (req, res) => {
   const query = `
     SELECT Dogs.name AS dog_name, Dogs.size AS size, Users.username AS owner_username
@@ -102,7 +99,6 @@ app.get('/api/dogs', (req, res) => {
   });
 });
 
-// /api/walkrequests/open
 app.get('/api/walkrequests/open', (req, res) => {
   const query = `
     SELECT WalkRequests.request_id, Dogs.name AS dog_name, WalkRequests.requested_time,
@@ -124,7 +120,6 @@ app.get('/api/walkrequests/open', (req, res) => {
   });
 });
 
-// /api/walkers/summary
 app.get('/api/walkers/summary', (req, res) => {
   const query = `
     SELECT Users.username AS walker_username,
