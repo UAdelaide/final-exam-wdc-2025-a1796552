@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Checking if 
 router.get('/test-connection', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT 1 + 1 AS result');
@@ -20,7 +21,6 @@ router.get('/test-connection', async (req, res) => {
     res.status(500).json({ error: 'DB connection failed', details: error.message });
   }
 });
-
 
 // POST a new user (simple signup)
 router.post('/register', async (req, res) => {
