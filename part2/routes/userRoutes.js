@@ -60,7 +60,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    
+    //
+    req.session.user = row[0];
+
     // Changed to direct access to role
     res.json({ message: 'Login successful', ...rows[0] });
   } catch (error) {
