@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Store user in session
-    req.session.user = row[0];
+    req.session.user = rows[0];
 
     // Changed to direct access to role
     res.json({ message: 'Login successful', ...rows[0] });
