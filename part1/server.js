@@ -99,6 +99,43 @@ app.get('/api/dogs', (req, res) => {
   }
 });
 
+app.get('/api/walkrequests/open', (req, res) => {
+  const query = `
+    SELECT
+      WalkRequests.request_id,
+      Dogs.name AS dog_name,
+      WalkRequests.requested_time,
+      WalkRequests.duration_minutes,
+      WalkRequests.location,
+      Users.username AS owner_username
+    FROM WalkRequests
+    JOIN Dogs ON WalkRequests.dog_id = Dogs.dog_id
+    JOIN Users ON Dogs.owner_id = Users.user_id
+    WHERE WalkRequests.status = 'open';
+  `;
+
+  try {
+    req.pool.getConnection((err, connection) => {
+      if (err) {
+        res.status(500).json({ error: 'Database connection failed' });
+        return;
+      }
+
+      connection.query(query, (err, results) => {
+        connection.release();
+
+        if (err) {
+          res.status(500).json({ error: 'Query failed' });
+        } else {
+          res.json(results);
+        }
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Unexpected server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
