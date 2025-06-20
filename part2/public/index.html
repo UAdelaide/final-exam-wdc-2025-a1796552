@@ -15,6 +15,22 @@
 
     <a href="owner-dashboard.html" class="btn btn-outline-primary me-2">Owner Dashboard</a>
     <a href="walker-dashboard.html" class="btn btn-outline-success">Walker Dashboard</a>
+
+    <hr class="my-4">
+
+    <h3>Login</h3>
+    <form @submit.prevent="handleLogin" class="mb-3">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input id="username" v-model="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" v-model="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Log In</button>
+      <p v-if="error" class="text-danger mt-2">{{ error }}</p>
+    </form>
   </div>
 
   <script>
@@ -22,8 +38,39 @@
     createApp({
       data() {
         return {
-          message: 'Welcome to the Dog Walking Service!'
+          message: 'Welcome to the Dog Walking Service!',
+          username: '',
+          password: '',
+          error: ''
         };
+      },
+      methods: {
+        async handleLogin() {
+          try {
+            const res = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: this.username,
+                password: this.password
+              })
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+              this.error = data.error;
+              return;
+            }
+
+            if (data.role === 'owner') {
+              window.location.href = '/owner-dashboard.html';
+            } else if (data.role === 'walker') {
+              window.location.href = '/walker-dashboard.html';
+            }
+          } catch (err) {
+            this.error = 'Login failed. Please try again.';
+          }
+        }
       }
     }).mount('#app');
   </script>
