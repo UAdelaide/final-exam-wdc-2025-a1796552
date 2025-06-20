@@ -19,6 +19,7 @@ pool.query(schema, (err) => {
     console.error('Error executing schema SQL:', err);
   } else {
     console.log('Database schema loaded.');
+    insertSampleData();
   }
 });
 
