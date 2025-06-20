@@ -97,6 +97,7 @@
           }
         }
 
+        <!-- ADDED: -->
         async function loadDogs() {
           try {
             const res = await fetch('/api/users/me/dogs');
@@ -144,7 +145,7 @@
           message,
           error,
           submitWalkRequest,
-          dogs // add 
+          dogs // add dogs to returned values
         };
       }
     }).mount('#app');
