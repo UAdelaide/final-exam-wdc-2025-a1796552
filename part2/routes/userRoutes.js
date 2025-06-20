@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    //
+    // Store user in session
     req.session.user = row[0];
 
     // Changed to direct access to role
