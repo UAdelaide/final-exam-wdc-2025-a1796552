@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Checking if 
+// Checking if database is connected
 router.get('/test-connection', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT 1 + 1 AS result');
