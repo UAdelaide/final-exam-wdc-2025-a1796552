@@ -35,6 +35,30 @@
       <p v-if="error" class="text-danger mt-2">{{ error }}</p>
     </form>
     <!-- END ADDED: Login form -->
+
+    <h3>Dogs in Our Service</h3>
+      <div v-if="dogs.length > 0" class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead>
+            <tr>
+              <th>Picture</th>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="dog in dogs" :key="dog.dog_id">
+              <td><img :src="dog.img" alt="Dog photo" width="100"/></td>
+              <td>{{ dog.dog_name }}</td>
+              <td>{{ dog.size }}</td>
+              <td>{{ dog.owner_username }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p v-else>No dogs found.</p>
+
   </div>
 
   <script>
