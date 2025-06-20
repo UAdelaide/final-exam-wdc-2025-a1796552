@@ -6,14 +6,14 @@
   <script src="https://unpkg.com/vue@3"></script>
   <style>
     body {
-      background: linear-gradient(#ff0, #f0f, #0ff); /* 🚫 too bright */
-      font-family: Comic Sans MS; /* 🚫 unprofessional font */
-      color: #eee; /* 🚫 poor contrast */
+      background: linear-gradient(#ff0, #f0f, #0ff);
+      font-family: Comic Sans MS;
+      color: #eee;
       padding: 40px;
     }
     img {
       width: 100%;
-      border: 10px dashed red; /* 🚫 distracting border */
+      border: 10px dashed red;
     }
     .button-grid {
       display: flex;
@@ -23,8 +23,8 @@
 </head>
 <body>
   <div id="app">
-    <h1>Welcome to the Ultimate Dog Zone 9000™</h1>
-    <p>Please press all 3 buttons below in order to see the dog.</p> <!-- 🚫 kinematic overload -->
+    <h1>Welcome to the Ultimate Dog Zone 9000</h1>
+    <p>Please press all 3 buttons below in order to see the dog.</p>
 
     <div class="button-grid">
       <button @click="step1 = true">Step 1</button>
