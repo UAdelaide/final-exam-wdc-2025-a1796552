@@ -36,7 +36,7 @@
     </form>
     <!-- END ADDED: Login form -->
 
-    <!-- ADDED: -->
+    <!-- ADDED: Dogs list -->
     <hr class="my-4">
       <h2 class="mb-3">All Registered Dogs</h2>
       <table class="table table-bordered align-middle text-center">
@@ -56,7 +56,7 @@
             <td>{{ dog.size }}</td>
             <td>{{ dog.owner_id }}</td>
             <td>
-              <img :src="dog.img" alt="Dog photo" style="width: 100px; height: auto;">
+              <img :src="dog.img || ''" alt="Dog photo" style="width: 100px; height: auto;">
             </td>
           </tr>
         </tbody>
